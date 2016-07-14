@@ -7,7 +7,7 @@ public class WoDRoller {
     private static final Random random = new Random();
 
     public static final int EXCEPTIONAL_SUCCESS = 5;
-    public static final int DICE_VALUE = 10;
+    public static final int DICE_SIZE = 10;
     public static final Integer DEFAULT_CHANCE_DICE = 1, DEFAULT_NUM_DICE = 5, DEFAULT_TARGET = 8,
             DEFAULT_ROLL_AGAIN = 10;
 
@@ -27,10 +27,10 @@ public class WoDRoller {
         successes = 0;
         ArrayList<Integer> rollList = new ArrayList<>(num);
         for (int rollsLeft = num; rollsLeft > 0; rollsLeft--) {
-            int roll = random.nextInt(DICE_VALUE) + 1;
+            int roll = random.nextInt(DICE_SIZE) + 1;
             rollList.add(roll);
 
-            if ((rollset.chance && roll == DICE_VALUE)
+            if ((rollset.chance && roll == DICE_SIZE)
                     || (!rollset.chance && roll >= rollset.target))
             {
                 successes++;

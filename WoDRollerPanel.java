@@ -35,8 +35,11 @@ class WoDRollerPanel extends JPanel {
     private final JTextArea outputArea;
     private final JButton rollButton, clearButton;
 
+    private String savedDiceNum;
+
     protected WoDRollerPanel() {
         Integer[] targets = { 10, 9, 8, 7, 6 };
+        savedDiceNum = "";
 
 
         setLayout(new BorderLayout());
@@ -161,7 +164,7 @@ class WoDRollerPanel extends JPanel {
 
         try {
             if (entRollAgain.equalsIgnoreCase(WoDRollerPanel.UNSKILLED_STR)) {
-                rollAgain = WoDRoller.DICE_VALUE + 1;
+                rollAgain = WoDRoller.DICE_SIZE + 1;
             } else {
                 rollAgain = Integer.parseInt(entRollAgain);
             }
@@ -263,9 +266,6 @@ class WoDRollerPanel extends JPanel {
             Object source = e.getSource();
 
             if (source == rollButton) {
-                if (chanceRoll.isSelected()) {
-                    diceNumField.setText("1");
-                }
                 handleRoll();
             } else if (source == clearButton) {
                 clearOutput();
@@ -281,10 +281,25 @@ class WoDRollerPanel extends JPanel {
         public void actionPerformed(ActionEvent e) {
             Object source = e.getSource();
 
-            if (source == chanceRoll && rote.isSelected()) {
-                rote.setSelected(false);
+            if (source == chanceRoll) {
+                revertDiceNum();
+
+                if (rote.isSelected()) {
+                    rote.setSelected(false);
+                }
             } else if (source == rote && chanceRoll.isSelected()) {
                 chanceRoll.setSelected(false);
+                revertDiceNum();
+            }
+        }
+
+        private void revertDiceNum() {
+            if (chanceRoll.isSelected()) {
+                savedDiceNum = diceNumField.getText();
+                diceNumField.setText("1");
+            } else {
+                diceNumField.setText(savedDiceNum);
+                savedDiceNum = "";
             }
         }
     }
